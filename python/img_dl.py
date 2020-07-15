@@ -1,6 +1,6 @@
-from get_this_url import get_this_url
+from python.get_this_url import get_this_url
+from python.make_dir import make_dir
 from multiprocessing import Process, Pool
-import os
 
 
 def saver(msg: dict):
@@ -8,6 +8,8 @@ def saver(msg: dict):
     saving_path = msg["saving_path"]
     content_name = '/'.join(saving_path.split("/")[-2:])
     print(f"Saving {content_name} to {saving_path}...", end='')
+    parent_dir = '/'.join(saving_path.split('/')[:-1])
+    make_dir(parent_dir)
     with open(saving_path, "w", encoding="utf-8") as fp:
         fp.write(str(msg["content"]))
     print("Done. ")
@@ -38,6 +40,12 @@ def img_dl(thread_num: int, url_list: list, headers: dict):
     :param thread_num: Initial thread num. Default to 3.
     :param url_list: A list consists of url_dict
                     which consists of "url", "content_name", "saving_path".
+                    url_list = [
+                        {"url": "url_1", "saving_path": "./data/1.jpg"},
+                        {"url": "url_2", "saving_path": "./data/2.jpg"},
+                        ...
+                    ]
+
     :param headers: requests headers.
     :return:
     """
@@ -53,6 +61,7 @@ def img_dl(thread_num: int, url_list: list, headers: dict):
 
 
 if __name__ == "__main__":
+    # for testing purpose.
     target_urls = [
         {"url": "url_1", "saving_path": "./data/1.jpg"},
         {"url": "url_2", "saving_path": "./data/2.jpg"},
