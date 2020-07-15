@@ -4,12 +4,13 @@ from random import choice as random_choice
 from time import sleep as time_sleep
 
 
-def rest(base=None, gain=1.0) -> None:
+def rest(base=None, gain=1.0, gap=[]) -> None:
     """
     snap a little bit\n
-    1.3s -- 3.6s\n
+    [1.3-3.6]s + base\n
     :param base: base time line.
     :param gain: The amplifier.
+    :param gap: snap + random  in the gap
     """
     snap = [random_randint(1, 3), random_randint(1, 3), random_randint(1, 3)]
     ndigit = [random_randint(1, 3), random_randint(1, 3), random_randint(1, 3)]
@@ -58,6 +59,8 @@ def rest(base=None, gain=1.0) -> None:
         snap += base
     if gain != 1:
         snap *= gain
+    if len(gap) > 1:
+        snap += random_choice(gap)
     print("Now resting for {}s... ".format(snap), end='')
     time_sleep(snap)
     print("Done. ")
