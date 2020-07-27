@@ -1,6 +1,5 @@
 from re import sub as re_sub
 
-
 a = '''
 UserAgent Here. 
 '''

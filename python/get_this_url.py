@@ -1,24 +1,31 @@
 from requests import get as requests_get
+from cfg import UNKNOWN_ERROR, TIMED_OUT, TIMED_OUT_TIME
+
+try:
+    from python.Logger import Logger
+except (ImportError, FileNotFoundError, ModuleNotFoundError) as e:
+    from Logger import Logger
 
 
-def get_this_url(url: str, headers: dict, text_mode=True):
+def get_this_url(_url: str, _headers: dict, text_mode=True):
     """
-    :param url: Target url
-    :param headers: Request headers
+    :param _url: Target url
+    :param _headers: Request headers
     :param text_mode: Return r.txt if set to True. Return r.content if set to False
-    :return: r.txt(str) on success if text_mode set to True. |
-             r.content(bin) on success if text_mode set to False. |
-             r.status_code(int) on failure
+    :return: {"content": error_msg if error occurs else r.text or r.content, "url": ...}
     """
-    r = None
+    res = {"content": UNKNOWN_ERROR, "url": _url}
     try:
-        r = requests_get(url=url, headers=headers)
+        r = requests_get(url=_url, headers=_headers)
         r.raise_for_status()
-        r.encoding = r.apparent_encoding
+        # Logger.log([get_this_url, f'status_code: [{r.status_code}] | url: {_url}'])
+        if text_mode:
+            r.encoding = r.apparent_encoding
+            res["content"] = r.text
+        else:
+            res["content"] = r.content
     except TimeoutError:
-        print("Timed Out: " + url)
-        return r.status_code
+        Logger.log([get_this_url, f'{TimeoutError}: {url}'])
+        res["content"] = TIMED_OUT
     finally:
-        if r is None:
-            return False
-        return r.text if text_mode else r.content
+        return res

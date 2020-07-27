@@ -1,5 +1,10 @@
 from os import makedirs as os_makedirs
 
+try:
+    from python.Logger import Logger
+except (ImportError, FileNotFoundError, ModuleNotFoundError) as e:
+    from Looger import Looger
+
 
 def make_dir(dir_path: str) -> None:
     """
@@ -10,4 +15,4 @@ def make_dir(dir_path: str) -> None:
     try:
         os_makedirs(dir_path, exist_ok=True)
     except FileExistsError:
-        print(dir_path + " exists. ")
+        Logger.log([make_dir, f"{dir_path} exists. "])

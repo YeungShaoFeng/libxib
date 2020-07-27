@@ -3,14 +3,19 @@ from random import shuffle as random_shuffle
 from random import choice as random_choice
 from time import sleep as time_sleep
 
+try:
+    from python.Logger import Logger
+except (ImportError, FileNotFoundError, ModuleNotFoundError) as e:
+    from Logger import Logger
 
-def rest(base=None, gain=1.0, gap=[]) -> None:
+
+def rest(base=None, gain=1.0, gap=None) -> None:
     """
     snap a little bit\n
     [1.3-3.6]s + base\n
     :param base: base time line.
     :param gain: The amplifier.
-    :param gap: snap + random  in the gap
+    :param gap: Iterable obj but not dict, snap + random  in the gap
     """
     snap = [random_randint(1, 3), random_randint(1, 3), random_randint(1, 3)]
     ndigit = [random_randint(1, 3), random_randint(1, 3), random_randint(1, 3)]
@@ -56,11 +61,11 @@ def rest(base=None, gain=1.0, gap=[]) -> None:
     if snap < 1.5:
         snap += 1
     if base:
-        snap += base
+        snap += int(base)
     if gain != 1:
         snap *= gain
-    if len(gap) > 1:
+    if gap is not None:
         snap += random_choice(gap)
-    print("Now resting for {}s... ".format(snap), end='')
-    time_sleep(snap)
-    print("Done. ")
+    Logger.log([rest, f"Now resting for [{snap}]s... "])
+    time_sleep(int(snap))
+    Logger.log([rest, "Done. "])
