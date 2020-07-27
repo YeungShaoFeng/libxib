@@ -3,7 +3,7 @@ from time import ctime as t_ctime
 from os import makedirs as make_dir
 
 __APP_JS_PATH = "./js/app.js"
-__APP_JS_ERROR_PATH = "../js/app.js"
+__APP_JS_ERROR_PATH = "../javascript/app.js"
 DATA_ALBUMS = "./data/albums/"
 UNKNOWN_ERROR = "unknown-error"
 TIMED_OUT_TIME = 20

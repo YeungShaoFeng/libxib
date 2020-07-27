@@ -47,15 +47,15 @@ class Logger:
         name = Logger.get_func_name(massage)
         type_of_massage = type(massage).__name__
         type_of_name = type(name).__name__
-        if type_of_name == 'str':
+        if type_of_name == 'str':  # function logged as: '[function_name]: '
             Logger._log_a_string(f"[{name}]: ")
-        elif type_of_massage == 'str':
+        elif type_of_massage == 'str':  # string logged as: 'string'
             Logger._log_a_string(massage)
-        elif type_of_massage == 'bool':
+        elif type_of_massage == 'bool':  # boolean logged as: ''
             pass
-        elif type_of_massage == 'type':
+        elif type_of_massage == 'type':  # exception. logged as: '[exception.__name__]'
             Logger._log_an_exception(massage)
-        elif type_of_massage == 'property':
+        elif type_of_massage == 'property':  # class's property. logged as: '(@p)property'
             Logger._log_a_string(f'(@p){massage}')
 
     @classmethod

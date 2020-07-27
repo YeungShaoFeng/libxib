@@ -18,13 +18,12 @@ except (ImportError, FileNotFoundError, ModuleNotFoundError) as e:
 exitFlag = False
 queue_lock = Lock()
 
-
 # """
 # TEST
 # """
-# from make_dir import make_dir
-# # from get_this_url import get_this_url
-# from pic_format import pic_format
+# # from make_dir import make_dir
+# # # from get_this_url import get_this_url
+# # from pic_format import pic_format
 #
 # UNKNOWN_ERROR = "unknown-error"
 # TIMED_OUT_TIME = 20
@@ -39,6 +38,8 @@ queue_lock = Lock()
 #             "url": url,
 #             "saving_path": "./data/1"
 #             }
+#
+#
 # """
 # TEST
 # """
@@ -99,7 +100,9 @@ class DlWorker(Thread):
                 Logger.log([f"[{self.name}] ", f'is getting: "{url}"'])
                 data["content"] = get_this_url(data["url"], self.headers, text_mode=False)["content"]
                 saver(data, text_mod=False)
-                # saver(get(data["url"], self.headers))
+                # === test ===
+                # data["content"] = b'\xff\xd8\xff'
+                # saver(get(data["url"], self.headers), text_mod=False)
             sleep(0.1)
 
 
